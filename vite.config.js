@@ -4,4 +4,9 @@ import eslint from "vite-plugin-eslint";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), eslint()],
+  resolve: {
+    alias: {
+      // Ensure proper aliasing if you have specific module resolutions
+    },
+  },
 });
