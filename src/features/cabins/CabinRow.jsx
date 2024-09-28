@@ -53,13 +53,14 @@ function CabinRow({ cabin }) {
     name,
   } = cabin;
   const queryClient = useQueryClient();
+
   const { isLoading, mutate } = useMutation({
     mutationFn: deleteCabin,
     //what you are doing below is if deleting was successful you want to do something:
     onSuccess: () => {
       toast.success("Cabin was deleted");
       //in this case you need to refetch data to refresh list.
-      //u make it by invalidating query so it will refetch list u call the method on queryClient
+      //u do it by invalidating query so it will refetch list u call the method on queryClient
       //
       queryClient.invalidateQueries({
         queryKey: ["cabins"],
@@ -71,7 +72,6 @@ function CabinRow({ cabin }) {
   return (
     <TableRow role="row">
       <Img src={image} />
-
       <Cabin>{name}</Cabin>
       <div>Fits up to {maxCapacity}</div>
       <Price>{formatCurrency(regularPrice)}</Price>

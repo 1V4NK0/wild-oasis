@@ -8,6 +8,7 @@ const StyledSidebar = styled.aside`
   grid-row: 1 / -1;
   display: flex;
   flex-direction: column;
+  /* position: fixed; */
   gap: 4rem;
   border-right: 1px solid var(--color-grey-100);
 `;
