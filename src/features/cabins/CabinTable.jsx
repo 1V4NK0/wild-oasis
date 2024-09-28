@@ -31,12 +31,12 @@ function CabinTable() {
   const {
     isLoading,
     data: cabins,
+    // eslint-disable-next-line no-unused-vars
     error,
   } = useQuery({
-    queryKey: ["cabin"],
+    queryKey: ["cabins"],
     queryFn: getCabins,
   });
-  console.log(cabins, error);
 
   if (isLoading) return <Spinner />;
 

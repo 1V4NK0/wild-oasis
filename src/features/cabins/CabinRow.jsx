@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteCabin } from "../../services/apiCabins";
+import toast from "react-hot-toast";
 /* eslint-disable react/prop-types */
 const TableRow = styled.div`
   display: grid;
@@ -41,15 +44,41 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const {  maxCapacity, regularPrice, discount, image, id } = cabin;
+  const {
+    maxCapacity,
+    regularPrice,
+    id: cabinId,
+    discount,
+    image,
+    name,
+  } = cabin;
+  const queryClient = useQueryClient();
+  const { isLoading, mutate } = useMutation({
+    mutationFn: deleteCabin,
+    //what you are doing below is if deleting was successful you want to do something:
+    onSuccess: () => {
+      toast.success("Cabin was deleted");
+      //in this case you need to refetch data to refresh list.
+      //u make it by invalidating query so it will refetch list u call the method on queryClient
+      //
+      queryClient.invalidateQueries({
+        queryKey: ["cabins"],
+      });
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
   return (
     <TableRow role="row">
       <Img src={image} />
 
-      <Cabin>{id}</Cabin>
+      <Cabin>{name}</Cabin>
       <div>Fits up to {maxCapacity}</div>
       <Price>{formatCurrency(regularPrice)}</Price>
       <Discount>{formatCurrency(discount)}</Discount>
+      <button onClick={() => mutate(cabinId)} disabled={isLoading}>
+        Delete
+      </button>
     </TableRow>
   );
 }
