@@ -17,25 +17,22 @@ export async function createEditCabin(newCabin, id) {
     "/",
     ""
   );
-  const imagePath = hasImagePath ? newCabin.image : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+  const imagePath = hasImagePath
+    ? newCabin.image
+    : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
   // Create / edit cabin
   let query = supabase.from("cabins");
 
   //Create:
-  if (!id)
-    query = query
-      .insert([{ ...newCabin, image: imagePath }])
-      .select()
-      .single();
+  if (!id) query = query.insert([{ ...newCabin, image: imagePath }]);
+  // .select()
+  // .single();
   //select and single are needed in case u want to return newly created obj
 
   // Edit:
-  if (id)
-   query = query
-      .update({ ...newCabin, image: imagePath })
-      .eq("id", id)
-      .select();
+  if (id) query = query.update({ ...newCabin, image: imagePath }).eq("id", id);
+  // .select();
 
   const { data, error } = await query;
 
