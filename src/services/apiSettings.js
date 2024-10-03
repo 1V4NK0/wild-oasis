@@ -2,12 +2,13 @@ import supabase from "./supabase";
 
 export async function getSettings() {
   const { data, error } = await supabase.from("settings").select("*").single();
+  //single returns an OBJECT instead of ARRAY
 
   if (error) {
     console.error(error);
     throw new Error("Settings could not be loaded");
   }
-  return data;
+  return data; // data -> OBJECT, not array because of single(), without it u would have to use data[0]
 }
 
 // We expect a newSetting object that looks like {setting: newValue}

@@ -1,4 +1,3 @@
-
 import styled from "styled-components";
 
 import Spinner from "../../ui/Spinner";
@@ -29,8 +28,7 @@ const TableHeader = styled.header`
   padding: 1.6rem 2.4rem;
 `;
 function CabinTable() {
-  const {isLoading, cabins} = useCabins();
-  
+  const { isLoading, cabins } = useCabins();
 
   if (isLoading) return <Spinner />;
 
