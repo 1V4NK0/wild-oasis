@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import { useState } from "react";
+// import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
 import { useDeleteCabin } from "./useDeleteCabin";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import { useCreateCabin } from "./useCreateCabin";
+import Modal from "../../ui/Modal";
+// import Button from "../../ui/Button";
 /* eslint-disable react/prop-types */
 const TableRow = styled.div`
   display: grid;
@@ -47,7 +49,7 @@ const Discount = styled.div`
 
 function CabinRow({ cabin }) {
   const { isLoading, deleteCabin } = useDeleteCabin();
-  const [showForm, setShowForm] = useState(false);
+  // const [showForm, setShowForm] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const { isCreating, createCabin } = useCreateCabin();
   const {
@@ -90,12 +92,17 @@ function CabinRow({ cabin }) {
           <button onClick={() => deleteCabin(cabinId)} disabled={isLoading}>
             <HiTrash />
           </button>
-          <button onClick={() => setShowForm(!showForm)}>
-            <HiPencil />
-          </button>
+          <Modal>
+        <Modal.Open opens="cabin-form">
+          <button><HiPencil /></button>
+        </Modal.Open>
+        <Modal.Window name="cabin-form">
+          <CreateCabinForm cabinToEdit={cabin}/>
+        </Modal.Window>
+      </Modal>
         </div>
       </TableRow>
-      {showForm && <CreateCabinForm cabinToEdit={cabin} />}
+      {/* {showForm && <CreateCabinForm cabinToEdit={cabin} />} */}
     </>
   );
 }

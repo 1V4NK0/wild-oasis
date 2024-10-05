@@ -1,9 +1,17 @@
 /* eslint-disable react/prop-types */
 
-import { cloneElement, createContext, useContext, useState } from "react";
+import {
+  cloneElement,
+  createContext,
+  useContext,
+  // useEffect,
+  // useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
+import { useClickOutside } from "../hooks/useClickOutside";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -57,6 +65,7 @@ const Button = styled.button`
 const ModalContext = createContext();
 
 function Modal({ children }) {
+  //here u store the name of opened element, if it's empty, no element shows up
   const [openName, setOpenName] = useState("");
 
   //these variables are made just because of nicer name
@@ -72,26 +81,32 @@ function Modal({ children }) {
 
 function Open({ children, opens: opensWindowName }) {
   const { open } = useContext(ModalContext);
+  //returns children element but with added functionality
+  //because u can't pass props directly
   return cloneElement(children, { onClick: () => open(opensWindowName) });
 }
 
 function Window({ children, name }) {
   const { openName, close } = useContext(ModalContext);
+  const ref = useClickOutside(close);
+
   if (name !== openName) return null;
 
   return createPortal(
     <Overlay>
-      <StyledModal>
+      <StyledModal ref={ref}>
         <Button onClick={close}>
           <HiXMark />
         </Button>
-        <div>{children}</div>
+
+        <div>{cloneElement(children, { onClose: close })}</div>
       </StyledModal>
     </Overlay>,
     document.body
   );
 }
 
+//just assigning elements as properties of modal so they will look even more related to each other
 Modal.Open = Open;
 Modal.Window = Window;
 
