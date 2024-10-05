@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Button from "./Button";
 import Heading from "./Heading";
+/* eslint-disable react/prop-types */
+// eslint-disable-next-line no-unused-vars
 
 const StyledConfirmDelete = styled.div`
   width: 40rem;
@@ -19,8 +21,10 @@ const StyledConfirmDelete = styled.div`
     gap: 1.2rem;
   }
 `;
-
-function ConfirmDelete({ resourceName, onConfirm, disabled }) {
+// eslint-disable-next-line no-unused-vars
+function ConfirmDelete({ onClose, resourceName, onConfirm, disabled }) {
+  //we passed this onClose as it is a child component of modal window and 
+  //due to modal context all children get this 
   return (
     <StyledConfirmDelete>
       <Heading as="h3">Delete {resourceName}</Heading>
@@ -30,10 +34,10 @@ function ConfirmDelete({ resourceName, onConfirm, disabled }) {
       </p>
 
       <div>
-        <Button variation="secondary" disabled={disabled}>
+        <Button onClick={onClose} variation="secondary" disabled={disabled}>
           Cancel
         </Button>
-        <Button variation="danger" disabled={disabled}>
+        <Button onClick={onConfirm} variation="danger" disabled={disabled}>
           Delete
         </Button>
       </div>

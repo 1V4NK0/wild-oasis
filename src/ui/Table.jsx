@@ -1,5 +1,8 @@
+import { createContext, useContext } from "react";
 import styled from "styled-components";
+/* eslint-disable react/prop-types */
 
+// eslint-disable-next-line no-unused-vars
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
 
@@ -8,7 +11,7 @@ const StyledTable = styled.div`
   border-radius: 7px;
   overflow: hidden;
 `;
-
+// eslint-disable-next-line no-unused-vars
 const CommonRow = styled.div`
   display: grid;
   grid-template-columns: ${(props) => props.columns};
@@ -16,7 +19,7 @@ const CommonRow = styled.div`
   align-items: center;
   transition: none;
 `;
-
+// eslint-disable-next-line no-unused-vars
 const StyledHeader = styled(CommonRow)`
   padding: 1.6rem 2.4rem;
 
@@ -27,7 +30,7 @@ const StyledHeader = styled(CommonRow)`
   font-weight: 600;
   color: var(--color-grey-600);
 `;
-
+// eslint-disable-next-line no-unused-vars
 const StyledRow = styled(CommonRow)`
   padding: 1.2rem 2.4rem;
 
@@ -35,11 +38,11 @@ const StyledRow = styled(CommonRow)`
     border-bottom: 1px solid var(--color-grey-100);
   }
 `;
-
+// eslint-disable-next-line no-unused-vars
 const StyledBody = styled.section`
   margin: 0.4rem 0;
 `;
-
+// eslint-disable-next-line no-unused-vars
 const Footer = styled.footer`
   background-color: var(--color-grey-50);
   display: flex;
@@ -51,10 +54,48 @@ const Footer = styled.footer`
     display: none;
   }
 `;
-
+// eslint-disable-next-line no-unused-vars
 const Empty = styled.p`
   font-size: 1.6rem;
   font-weight: 500;
   text-align: center;
   margin: 2.4rem;
 `;
+
+const TableContext = createContext();
+
+function Table({ columns, children }) {
+  return (
+    <TableContext.Provider value={{ columns }}>
+      <StyledTable role="table">{children}</StyledTable>
+    </TableContext.Provider>
+  );
+}
+
+function Header({ children }) {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledHeader as="header" role="row" columns={columns}>
+      {children}
+    </StyledHeader>
+  );
+}
+function Row({ children }) {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledRow role="row" columns={columns}>
+      {children}
+    </StyledRow>
+  );
+}
+function Body({ data, render }) {
+  if (!data.length) return <Empty>No data</Empty>
+  return <StyledBody>{data.map(render)}</StyledBody>;
+}
+
+Table.Header = Header;
+Table.Body = Body;
+Table.Row = Row;
+Table.Footer = Footer;
+
+export default Table;

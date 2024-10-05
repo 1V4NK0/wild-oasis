@@ -1,10 +1,17 @@
 import styled from "styled-components";
 
-import Table from "../../ui/Table";
 import Spinner from "../../ui/Spinner";
 import CabinRow from "./CabinRow";
 import { useCabins } from "./useCabins";
-import Menus from "../../ui/Menus";
+// eslint-disable-next-line no-unused-vars
+const Table = styled.div`
+  border: 1px solid var(--color-grey-200);
+
+  font-size: 1.4rem;
+  background-color: var(--color-grey-0);
+  border-radius: 7px;
+  overflow: hidden;
+`;
 // eslint-disable-next-line no-unused-vars
 const TableHeader = styled.header`
   display: grid;
@@ -26,22 +33,19 @@ function CabinTable() {
   if (isLoading) return <Spinner />;
 
   return (
-    <Menus>
-      <Table columns=".6fr 1.8fr 2.2fr 1fr 1fr 1fr">
-        <Table.Header>
-          <div></div>
-          <div>Cabin</div>
-          <div>Capacity</div>
-          <div>Price</div>
-          <div>Discount</div>
-          <div></div>
-        </Table.Header>
-        <Table.Body
-          data={cabins}
-          render={(cabin) => <CabinRow key={cabin.id} cabin={cabin} />}
-        />
-      </Table>
-    </Menus>
+    <Table role="table">
+      <TableHeader>
+        <div></div>
+        <div>Cabin</div>
+        <div>Capacity</div>
+        <div>Price</div>
+        <div>Discount</div>
+        <div></div>
+      </TableHeader>
+      {cabins.map((cabin) => (
+        <CabinRow key={cabin.id} cabin={cabin} />
+      ))}
+    </Table>
   );
 }
 
