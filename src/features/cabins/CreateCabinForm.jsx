@@ -105,7 +105,7 @@ function CreateCabinForm({ cabinToEdit = {}, onClose }) {
             required: "This field is required",
             //u can validate the input
             validate: (value) =>
-              value <= getValues().regularPrice ||
+              Number(value) < Number(getValues().regularPrice) ||
               "discount should be less than the regular price",
           })}
         />
