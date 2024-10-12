@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
-
+/* eslint-disable react/prop-types */
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
 
@@ -36,11 +36,14 @@ const Amount = styled.div`
 
 function BookingRow({
   booking: {
+    // eslint-disable-next-line no-unused-vars
     id: bookingId,
+    // eslint-disable-next-line no-unused-vars
     created_at,
     startDate,
     endDate,
     numNights,
+    // eslint-disable-next-line no-unused-vars
     numGuests,
     totalPrice,
     status,
