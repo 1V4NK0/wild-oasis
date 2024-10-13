@@ -37,20 +37,22 @@ const Amount = styled.div`
 function BookingRow({
   booking: {
     // eslint-disable-next-line no-unused-vars
-    id: bookingId,
+    // id,
     // eslint-disable-next-line no-unused-vars
-    created_at,
+    // created_at,
     startDate,
     endDate,
     numNights,
     // eslint-disable-next-line no-unused-vars
-    numGuests,
+    // numGuests,
     totalPrice,
     status,
-    guests: { fullName: guestName, email },
-    cabins: { name: cabinName },
+    guests: { fullName: guestName, email } = {},
+    cabins: { name: cabinName } = {},
   },
 }) {
+  console.log(guestName);
+
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",

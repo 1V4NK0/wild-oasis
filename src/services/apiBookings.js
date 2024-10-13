@@ -17,12 +17,17 @@ export async function getBooking(id) {
 }
 
 export async function getBookings() {
-  const { data, error } = await supabase.from("bookings").select("*");
+  const { data, error } = await supabase
+    .from("bookings")
+    .select(
+      "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, cabinId(name), guestId(fullName, email)"
+    );
+
   if (error) {
     console.log(error);
     throw new Error("bookings cabins could not be loaded");
   }
-
+  console.log(data);
   return data;
 }
 

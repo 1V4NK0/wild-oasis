@@ -1,7 +1,7 @@
-
-
 import { useQuery } from "@tanstack/react-query";
-import getBookings from "../../services/apiCabins";
+import { getBookings } from "../../services/apiBookings";
+//тут був імпорт не з apiBookings a з apiCabins... ЧОМУ ВОНО БЛЯТЬ НЕ ВКАЗАЛО НА ЦЕ ЯК ЦЕ МОГЛО ПРАЦЮВАТИ
+//В АПІКАБІНС НАВІТЬ ТАКОГО МЕТОДУ НЕМАЄ ЧОМУ Я НЕ ОТРИМАВ ПОМИЛКИ
 
 export function useBookings() {
   const {
