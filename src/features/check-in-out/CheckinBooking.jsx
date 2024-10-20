@@ -8,6 +8,8 @@ import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
+import { useBooking } from "../bookings/useBooking";
+import Spinner from "../../ui/Spinner";
 
 const Box = styled.div`
   /* Box */
@@ -18,32 +20,29 @@ const Box = styled.div`
 `;
 
 function CheckinBooking() {
+  const { booking, isLoading } = useBooking();
   const moveBack = useMoveBack();
 
-  const booking = {};
+  console.log(booking);
+  if (!booking) return <p>pizda</p>;
+  const { id, guests, totalPrice, numGuests, hasBreakfast, numNights } =
+    booking;
 
-  const {
-    id: bookingId,
-    guests,
-    totalPrice,
-    numGuests,
-    hasBreakfast,
-    numNights,
-  } = booking;
+  if (isLoading) return <Spinner />;
 
   function handleCheckin() {}
 
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">Check in booking #{bookingId}</Heading>
+        <Heading as="h1">Check in booking #{id}</Heading>
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
       </Row>
 
       <BookingDataBox booking={booking} />
 
       <ButtonGroup>
-        <Button onClick={handleCheckin}>Check in booking #{bookingId}</Button>
+        <Button onClick={handleCheckin}>Check in booking #{id}</Button>
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
