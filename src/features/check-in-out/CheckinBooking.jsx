@@ -26,18 +26,21 @@ const Box = styled.div`
 function CheckinBooking() {
   const [confirmPaid, setConfirmPaid] = useState(false);
   const { booking, isLoading } = useBooking();
-
-  useEffect(() => setConfirmPaid(booking || false), [booking]);
+  console.log(booking);
+  useEffect(() => setConfirmPaid(booking?.isPaid || false), [booking]);
 
   const moveBack = useMoveBack();
-const {checkin, isCheckingin} = useCheckin();
+  const { checkin, isCheckingin } = useCheckin();
   if (!booking) return <p>pizda</p>;
   const { id, guests, totalPrice, numGuests, hasBreakfast, numNights } =
     booking;
 
   if (isLoading) return <Spinner />;
 
-  function handleCheckin() {}
+  function handleCheckin() {
+    if (!confirmPaid) return;
+    checkin(id);
+  }
 
   return (
     <>
@@ -50,10 +53,10 @@ const {checkin, isCheckingin} = useCheckin();
 
       <Box>
         <Checkbox
-          disabled={confirmPaid}
           id="confirm"
           checked={confirmPaid}
-          onChange={() => setConfirmPaid((confirm) => !confirm)}
+          onChange={() => setConfirmPaid(!confirmPaid)}
+          disabled={confirmPaid}
         >
           I confirm that {guests.fullName} has paid the total amount of{" "}
           {formatCurrency(totalPrice)}
@@ -61,7 +64,7 @@ const {checkin, isCheckingin} = useCheckin();
       </Box>
 
       <ButtonGroup>
-        <Button disabled={!confirmPaid} onClick={handleCheckin}>
+        <Button disabled={!confirmPaid || isCheckingin} onClick={handleCheckin}>
           Check in booking #{id}
         </Button>
         <Button variation="secondary" onClick={moveBack}>
