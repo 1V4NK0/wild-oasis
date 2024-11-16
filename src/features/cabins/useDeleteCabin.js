@@ -21,5 +21,7 @@ export function useDeleteCabin() {
     onError: (err) => toast.error(err.message),
   });
 
+  
+
   return {isLoading, deleteCabin}
 }

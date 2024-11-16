@@ -23,7 +23,7 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
-  const { deleteBooking, isDeletingBooking } = useDeleteBooking();
+  const { handleDelete, isDeletingBooking } = useDeleteBooking();
   const { booking, isLoading } = useBooking();
   const { checkout, isCheckingout } = useCheckout();
   const navigate = useNavigate();
@@ -38,14 +38,6 @@ function BookingDetail() {
     unconfirmed: "blue",
     "checked-in": "green",
     "checked-out": "silver",
-  };
-
-  const handleDelete = (id) => {
-    var confirm = window.confirm("Are you sure you want to delete booking?");
-    if (confirm) {
-      deleteBooking(id);
-    }
-    navigate("/");
   };
 
   return (
@@ -67,7 +59,10 @@ function BookingDetail() {
 
         <Button
           disabled={isDeletingBooking}
-          onClick={() => handleDelete(id)}
+          onClick={() => {
+            handleDelete(id);
+            navigate("/");
+          }}
           variation="danger"
         >
           Delete
