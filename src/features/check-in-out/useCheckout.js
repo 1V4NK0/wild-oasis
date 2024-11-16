@@ -2,24 +2,21 @@ import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
 import { updateBooking } from "../../services/apiBookings";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { ImSpellCheck } from "react-icons/im";
 
-export function useCheckin() {
+export function useCheckout() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { mutate: checkin, isLoading: isCheckingin } = useMutation({
-    mutationFn: ({id, breakfast}) =>
+  const { mutate: checkout, isLoading: isCheckingout } = useMutation({
+    mutationFn: ({ id }) =>
       updateBooking(id, {
-        status: "checked-in",
-        isPaid: true,
-        ...breakfast,
+        status: "checked-out",
       }),
     onSuccess: (data) => {
-      toast.success(`Booking #${data.id} checked in`);
+      toast.success(`Booking #${data.id} checked out`);
       queryClient.invalidateQueries({ active: true });
       navigate("/");
     },
-    onError: () => toast.error("There was an error whule checking in :("),
+    onError: () => toast.error("There was an error while checking out :("),
   });
-  return { checkin, isCheckingin };
+  return { checkout, isCheckingout };
 }
